@@ -24,6 +24,11 @@ void AKWPawn::BeginPlay()
 	
 }
 
+void AKWPawn::SetSpringArmLength(float inValue)
+{
+	cameraArmComp->TargetArmLength += inValue*-10;
+}
+
 // Called every frame
 void AKWPawn::Tick(float DeltaTime)
 {
@@ -35,6 +40,6 @@ void AKWPawn::Tick(float DeltaTime)
 void AKWPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	PlayerInputComponent->BindAxis("CameraPull", this, &AKWPawn::SetSpringArmLength);
 }
 
