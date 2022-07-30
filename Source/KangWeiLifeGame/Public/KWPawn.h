@@ -35,4 +35,13 @@ public:
 		class USpringArmComponent* cameraArmComp;
 	UPROPERTY(VisibleAnywhere,  category = "zjhAddAttrs")
 		class UCameraComponent* cameraComp;
+
+	class APlayerController* playerCtr;
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		TSubclassOf<AActor> kwActor_BP;
+	class AKWActor* kwActor;
+
+	//公开的函数
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void MouseButtomClick();
 };

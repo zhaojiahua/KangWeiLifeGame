@@ -27,7 +27,11 @@ public:
 	UPROPERTY(VisibleAnywhere, category = "zjhAddAttrs")
 		class USceneComponent* rootSceneComp;
 	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
-		TMap<FVector2D, class UStaticMeshComponent*> gridMap;
+		TMap<FVector2D, int> gridMap;
+	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
+		TMap<FVector2D, AActor*> gridActorMap;
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		TSubclassOf<class AKWCube> kwCube;
 
 	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
 		int gridXCount = 100;
@@ -36,10 +40,24 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, category = "zjhAddAttrs")
 		float gridSize = 1.0f;
 
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		float evolveSpeed = 1.0f;
+	float intervalTime = 0.0f;
+
 public:
 	//公开的函数
 	UFUNCTION(BlueprintImplementableEvent, category = "zjhAddFuns")
 		void DrawGrid();
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		AKWCube* GenerateCube(FVector2D inLocal, float inSize);
+
+	void RefreshGrid(float inSize);
+	bool WillBeLiving(FVector2D inLocal);
+	FVector2D SafeVector2D(FVector2D inVector2D);
+
+	FVector ChangeLocalLocationToWorld(FVector2D inLocation,float inSize);
+	FVector2D ChangeWorldLocationToLocal(FVector inLocation, float inSize);
+
 private:
 	void GenerateGrid(int inXCount, int inYCount, float inGridSize);
 };
