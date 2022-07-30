@@ -10,6 +10,8 @@ AKWActor::AKWActor()
 	PrimaryActorTick.bCanEverTick = true;
 	rootSceneComp = CreateDefaultSubobject<USceneComponent>(TEXT("rootSceneComp"));
 	RootComponent = rootSceneComp;
+	bgComp= CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bgComp"));
+	bgComp->SetupAttachment(rootSceneComp);
 }
 
 // Called when the game starts or when spawned
@@ -27,12 +29,7 @@ void AKWActor::BeginPlay()
 void AKWActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	intervalTime += DeltaTime;
-	if (intervalTime > evolveSpeed)
-	{
-		RefreshGrid(gridSize);
-		intervalTime = 0.0f;
-	}
+
 }
 
 
@@ -128,5 +125,7 @@ void AKWActor::GenerateGrid(int inXCount, int inYCount, float inGridSize)
 			gridActorMap.Add(FVector2D(x, y), newkwCube);
 		}
 	}
+	bgComp->SetRelativeScale3D(FVector(inXCount));
+
 }
 

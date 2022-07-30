@@ -29,6 +29,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	//公开的变量
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
+		float evolveSpeed = 1.0f;
+	float intervalTime = 0.0f;
+
 	UPROPERTY(VisibleAnywhere,category="zjhAddAttrs")
 		class USceneComponent* rootComp;
 	UPROPERTY(VisibleAnywhere,  category = "zjhAddAttrs")
@@ -39,7 +43,11 @@ public:
 	class APlayerController* playerCtr;
 	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
 		TSubclassOf<AActor> kwActor_BP;
+	UPROPERTY(BlueprintReadOnly,category="zjhAddAttrs")
 	class AKWActor* kwActor;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,category="zjhAddAttrs")
+		bool gamePause = true;
 
 	//公开的函数
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")

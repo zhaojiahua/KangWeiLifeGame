@@ -43,7 +43,15 @@ void AKWPawn::SetSpringArmLength(float inValue)
 void AKWPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (!gamePause)
+	{
+		intervalTime += DeltaTime;
+		if (intervalTime > evolveSpeed)
+		{
+			kwActor->RefreshGrid(kwActor->gridSize);
+			intervalTime = 0.0f;
+		}
+	}
 }
 
 // Called to bind functionality to input

@@ -26,6 +26,8 @@ public:
 	//公开的属性
 	UPROPERTY(VisibleAnywhere, category = "zjhAddAttrs")
 		class USceneComponent* rootSceneComp;
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		class UStaticMeshComponent* bgComp;
 	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
 		TMap<FVector2D, int> gridMap;
 	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
@@ -40,7 +42,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, category = "zjhAddAttrs")
 		float gridSize = 1.0f;
 
-	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
 		float evolveSpeed = 1.0f;
 	float intervalTime = 0.0f;
 
