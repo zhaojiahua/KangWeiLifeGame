@@ -85,8 +85,16 @@ bool AKWActor::WillBeLiving(FVector2D inLocal)
 			tempInt += gridMap.FindRef(temp2d);
 		}
 	}
-	if (tempInt == 2 || tempInt == 3) return true;
-	return false;
+	if (gridMap[inLocal]==1)
+	{
+		if (tempInt == 2 || tempInt == 3) return true;
+		return false;
+	}
+	else
+	{
+		if (tempInt == 3)	return true;
+		return false;
+	}
 }
 
 FVector2D AKWActor::SafeVector2D(FVector2D inVector2D)
@@ -127,5 +135,17 @@ void AKWActor::GenerateGrid(int inXCount, int inYCount, float inGridSize)
 	}
 	bgComp->SetRelativeScale3D(FVector(inXCount));
 
+}
+
+void AKWActor::StartGame(int inXCount, int inYCount, float inGridSize)
+{
+	for (int x = 0; x < inXCount; x++)
+	{
+		for (int y = 0; y < inYCount; y++)
+		{
+			gridMap.Add(FVector2D(x, y), 0);
+			gridActorMap[FVector2D(x, y)]->SetActorHiddenInGame(true);
+		}
+	}
 }
 

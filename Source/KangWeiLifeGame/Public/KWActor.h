@@ -60,6 +60,7 @@ public:
 	FVector ChangeLocalLocationToWorld(FVector2D inLocation,float inSize);
 	FVector2D ChangeWorldLocationToLocal(FVector inLocation, float inSize);
 
-private:
 	void GenerateGrid(int inXCount, int inYCount, float inGridSize);
+	void StartGame(int inXCount, int inYCount, float inGridSize);
+
 };

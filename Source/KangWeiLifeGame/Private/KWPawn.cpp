@@ -36,7 +36,7 @@ void AKWPawn::BeginPlay()
 
 void AKWPawn::SetSpringArmLength(float inValue)
 {
-	cameraArmComp->TargetArmLength += inValue*-10;
+	cameraArmComp->TargetArmLength += inValue*-20;
 }
 
 // Called every frame
@@ -72,14 +72,26 @@ void AKWPawn::MouseButtomClick()
 	AKWCube* hitcube = Cast<AKWCube>(hitresult.GetActor());
 	if (hitcube)
 	{
-		hitcube->SetActorHiddenInGame(false);
-		FVector hitLocation = hitcube->GetActorLocation();
+		FVector hitWorldLocation = hitcube->GetActorLocation();
+		FVector2D hitLocal = kwActor->ChangeWorldLocationToLocal(hitWorldLocation, kwActor->gridSize);
 		if (kwActor)
 		{
-			FVector2D hitLocal = kwActor->ChangeWorldLocationToLocal(hitLocation, kwActor->gridSize);
-			kwActor->gridMap.Add(hitLocal, 1);
-			//GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Red, TEXT("hitcubeLocation X:" + FString::FromInt(hitLocal.X) + " Y:" + FString::FromInt(hitLocal.Y)));
+			if (kwActor->gridMap[hitLocal])
+			{
+				hitcube->SetActorHiddenInGame(true);
+				kwActor->gridMap.Add(hitLocal, 0);
+			}
+			else
+			{
+				hitcube->SetActorHiddenInGame(false);
+				kwActor->gridMap.Add(hitLocal, 1);
+			}
 		}
 	}
+}
+
+void AKWPawn::StartGame()
+{
+	if (kwActor)	kwActor->StartGame(kwActor->gridXCount, kwActor->gridYCount, kwActor->gridSize);
 }
 

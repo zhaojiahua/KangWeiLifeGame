@@ -29,4 +29,5 @@ public:
 	UPROPERTY(VisibleAnywhere, category = "zjhAddAttrs")
 		class UStaticMeshComponent* staticCubeComp;
 
+
 };

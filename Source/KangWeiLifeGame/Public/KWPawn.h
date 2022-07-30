@@ -49,7 +49,13 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,category="zjhAddAttrs")
 		bool gamePause = true;
 
+
+
 	//公开的函数
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
 		void MouseButtomClick();
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void StartGame();
+
+
 };
