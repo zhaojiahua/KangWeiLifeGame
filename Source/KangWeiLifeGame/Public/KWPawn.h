@@ -32,6 +32,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
 		float evolveSpeed = 1.0f;
 	float intervalTime = 0.0f;
+	
+	float realtimeMouseX = 0, realtimeMouseY = 0;
+	float clickX = 0, clickY = 0;
+	FVector clickLocation;
+	bool bgetRealtimeMouse = false;
 
 	UPROPERTY(VisibleAnywhere,category="zjhAddAttrs")
 		class USceneComponent* rootComp;
@@ -54,6 +59,10 @@ public:
 	//公开的函数
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
 		void MouseButtomClick();
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void MouseDragCamera();
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void MouseDragCameraOff();
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
 		void RestartGame();
 

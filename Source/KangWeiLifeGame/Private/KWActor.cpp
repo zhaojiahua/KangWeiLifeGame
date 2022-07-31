@@ -40,7 +40,7 @@ AKWCube* AKWActor::GenerateCube(FVector2D inLocal, float inSize)
 		forDeathDynMat = UMaterialInstanceDynamic::Create(matForCube_BP, this, "forDeathDynMat");
 		forDeathDynMat->SetVectorParameterValue("color", FVector4(0.1f, 0.15f, 0.5f, 1.0f));
 		forDeathDynMat->SetScalarParameterValue("opacity", 0.0f);
-		forDeathDynMat->SetScalarParameterValue("emissive", 0.01f);
+		forDeathDynMat->SetScalarParameterValue("emissive", 0.1f);
 		if (forDeathDynMat)	newCube->staticCubeComp->SetMaterial(0, forDeathDynMat);
 	}
 	return newCube;
@@ -175,7 +175,7 @@ void AKWActor::ChangeCubeMat(FVector2D inLocal, bool inLive)
 		forDeathDynMat = UMaterialInstanceDynamic::Create(matForCube_BP, this, "forDeathDynMat");
 		forDeathDynMat->SetVectorParameterValue("color", FVector4(0.1f, 0.15f, 0.5f, 1.0f));
 		forDeathDynMat->SetScalarParameterValue("opacity", 0.0f);
-		forDeathDynMat->SetScalarParameterValue("emissive", 0.01f);
+		forDeathDynMat->SetScalarParameterValue("emissive", 0.1f);
 		if (forDeathDynMat)	currentCube->staticCubeComp->SetMaterial(0, forDeathDynMat);
 	}
 }

@@ -52,6 +52,11 @@ void AKWPawn::Tick(float DeltaTime)
 			intervalTime = 0.0f;
 		}
 	}
+	if (bgetRealtimeMouse)
+	{
+		playerCtr->GetMousePosition(realtimeMouseX, realtimeMouseY);
+		SetActorLocation(clickLocation + FVector(0, clickX - realtimeMouseX, realtimeMouseY - clickY));
+	}
 }
 
 // Called to bind functionality to input
@@ -60,6 +65,8 @@ void AKWPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("CameraPull", this, &AKWPawn::SetSpringArmLength);
 	PlayerInputComponent->BindAction("MouseClick", IE_Pressed, this, &AKWPawn::MouseButtomClick);
+	PlayerInputComponent->BindAction("MouseDrag", IE_Pressed, this, &AKWPawn::MouseDragCamera);
+	PlayerInputComponent->BindAction("MouseDrag", IE_Released, this, &AKWPawn::MouseDragCameraOff);
 }
 
 void AKWPawn::MouseButtomClick()
@@ -88,6 +95,18 @@ void AKWPawn::MouseButtomClick()
 			}
 		}
 	}
+}
+
+void AKWPawn::MouseDragCamera()
+{
+	bgetRealtimeMouse = true;
+	playerCtr->GetMousePosition(clickX, clickY);
+	clickLocation = GetActorLocation();
+}
+
+void AKWPawn::MouseDragCameraOff()
+{
+	bgetRealtimeMouse = false;
 }
 
 void AKWPawn::RestartGame()
