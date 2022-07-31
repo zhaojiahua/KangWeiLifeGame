@@ -26,14 +26,17 @@ public:
 	//公开的属性
 	UPROPERTY(VisibleAnywhere, category = "zjhAddAttrs")
 		class USceneComponent* rootSceneComp;
-	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
-		class UStaticMeshComponent* bgComp;
 	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
 		TMap<FVector2D, int> gridMap;
 	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
 		TMap<FVector2D, AActor*> gridActorMap;
 	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
 		TSubclassOf<class AKWCube> kwCube;
+
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		UMaterialInterface* matForCube_BP;
+	class UMaterialInstanceDynamic* forDeathDynMat;
+	class UMaterialInstanceDynamic* forLiveDynMat;
 
 	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
 		int gridXCount = 100;
@@ -61,6 +64,9 @@ public:
 	FVector2D ChangeWorldLocationToLocal(FVector inLocation, float inSize);
 
 	void GenerateGrid(int inXCount, int inYCount, float inGridSize);
-	void StartGame(int inXCount, int inYCount, float inGridSize);
+	void RestartGame(int inXCount, int inYCount, float inGridSize);
+
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void ChangeCubeMat(FVector2D inLocal,bool inLive);
 
 };

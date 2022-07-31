@@ -1,4 +1,4 @@
-#include "KWPawn.h"
+﻿#include "KWPawn.h"
 #include "Components/SceneComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -36,7 +36,7 @@ void AKWPawn::BeginPlay()
 
 void AKWPawn::SetSpringArmLength(float inValue)
 {
-	cameraArmComp->TargetArmLength += inValue*-20;
+	cameraArmComp->TargetArmLength += inValue*-100;
 }
 
 // Called every frame
@@ -78,20 +78,21 @@ void AKWPawn::MouseButtomClick()
 		{
 			if (kwActor->gridMap[hitLocal])
 			{
-				hitcube->SetActorHiddenInGame(true);
+				kwActor->ChangeCubeMat(hitLocal, false);
 				kwActor->gridMap.Add(hitLocal, 0);
 			}
 			else
 			{
-				hitcube->SetActorHiddenInGame(false);
+				kwActor->ChangeCubeMat(hitLocal, true);
 				kwActor->gridMap.Add(hitLocal, 1);
 			}
 		}
 	}
 }
 
-void AKWPawn::StartGame()
+void AKWPawn::RestartGame()
 {
-	if (kwActor)	kwActor->StartGame(kwActor->gridXCount, kwActor->gridYCount, kwActor->gridSize);
+	if (kwActor)	kwActor->RestartGame(kwActor->gridXCount, kwActor->gridYCount, kwActor->gridSize);
 }
+
 

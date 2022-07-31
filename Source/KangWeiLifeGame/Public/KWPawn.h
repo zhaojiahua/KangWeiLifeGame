@@ -55,7 +55,6 @@ public:
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
 		void MouseButtomClick();
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
-		void StartGame();
-
+		void RestartGame();
 
 };
