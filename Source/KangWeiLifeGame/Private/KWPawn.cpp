@@ -114,4 +114,3 @@ void AKWPawn::RestartGame()
 	if (kwActor)	kwActor->RestartGame(kwActor->gridXCount, kwActor->gridYCount, kwActor->gridSize);
 }
 
-

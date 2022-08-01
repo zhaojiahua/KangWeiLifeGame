@@ -2,8 +2,11 @@
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "KWCube.h"
+#include "KWPawn.h"
 #include "Materials/MaterialInstance.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "KWGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AKWActor::AKWActor()
@@ -12,13 +15,27 @@ AKWActor::AKWActor()
 	PrimaryActorTick.bCanEverTick = true;
 	rootSceneComp = CreateDefaultSubobject<USceneComponent>(TEXT("rootSceneComp"));
 	RootComponent = rootSceneComp;
+	bgMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("bgMeshComp"));
+	bgMeshComp->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void AKWActor::BeginPlay()
 {
 	Super::BeginPlay();
+	gameInstance = Cast<UKWGameInstance>(GetWorld()->GetGameInstance());
+	kwPawn = Cast<AKWPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (gameInstance)
+	{
+		gridXCount = gameInstance->gridXCount;
+		gridYCount = gameInstance->gridYCount;
+	}
 	GenerateGrid(gridXCount, gridYCount, gridSize);
+	bgMeshComp->SetRelativeScale3D(FVector(gridXCount / 100.0f));
+	if (kwPawn)
+	{
+		kwPawn->SetActorLocation(FVector(-200.0f, gridXCount * 2.5, gridYCount * 2.5));
+	}
 }
 
 // Called every frame
@@ -38,9 +55,9 @@ AKWCube* AKWActor::GenerateCube(FVector2D inLocal, float inSize)
 		newCube = GetWorld()->SpawnActor<AKWCube>(kwCube, spawnLocation, FRotator(0.0f), spawnPara);
 		//死亡状态的材质
 		forDeathDynMat = UMaterialInstanceDynamic::Create(matForCube_BP, this, "forDeathDynMat");
-		forDeathDynMat->SetVectorParameterValue("color", FVector4(0.1f, 0.15f, 0.5f, 1.0f));
-		forDeathDynMat->SetScalarParameterValue("opacity", 0.0f);
-		forDeathDynMat->SetScalarParameterValue("emissive", 0.1f);
+		forDeathDynMat->SetVectorParameterValue("color", FVector4(0.0f, 0.0f, 0.0f, 1.0f));
+		forDeathDynMat->SetScalarParameterValue("opacity", 0.2f);
+		forDeathDynMat->SetScalarParameterValue("emissive", 0.0f);
 		if (forDeathDynMat)	newCube->staticCubeComp->SetMaterial(0, forDeathDynMat);
 	}
 	return newCube;
@@ -173,9 +190,9 @@ void AKWActor::ChangeCubeMat(FVector2D inLocal, bool inLive)
 	{
 		//死亡状态的材质
 		forDeathDynMat = UMaterialInstanceDynamic::Create(matForCube_BP, this, "forDeathDynMat");
-		forDeathDynMat->SetVectorParameterValue("color", FVector4(0.1f, 0.15f, 0.5f, 1.0f));
-		forDeathDynMat->SetScalarParameterValue("opacity", 0.0f);
-		forDeathDynMat->SetScalarParameterValue("emissive", 0.1f);
+		forDeathDynMat->SetVectorParameterValue("color", FVector4(0.0f, 0.0f, 0.0f, 1.0f));
+		forDeathDynMat->SetScalarParameterValue("opacity", 0.2f);
+		forDeathDynMat->SetScalarParameterValue("emissive", 0.0f);
 		if (forDeathDynMat)	currentCube->staticCubeComp->SetMaterial(0, forDeathDynMat);
 	}
 }

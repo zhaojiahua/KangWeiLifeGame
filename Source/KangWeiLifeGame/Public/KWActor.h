@@ -26,6 +26,8 @@ public:
 	//公开的属性
 	UPROPERTY(VisibleAnywhere, category = "zjhAddAttrs")
 		class USceneComponent* rootSceneComp;
+	UPROPERTY(VisibleAnywhere, category = "zjhAddAttrs")
+		class UStaticMeshComponent* bgMeshComp;
 	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
 		TMap<FVector2D, int> gridMap;
 	UPROPERTY(BlueprintReadOnly, category = "zjhAddAttrs")
@@ -37,13 +39,15 @@ public:
 		UMaterialInterface* matForCube_BP;
 	class UMaterialInstanceDynamic* forDeathDynMat;
 	class UMaterialInstanceDynamic* forLiveDynMat;
+	class UKWGameInstance* gameInstance;
+	class AKWPawn* kwPawn;
 
-	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
 		int gridXCount = 100;
-	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
 		int gridYCount = 100;
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, category = "zjhAddAttrs")
-		float gridSize = 1.0f;
+	UPROPERTY(EditAnywhere, category = "zjhAddAttrs")
+		float gridSize = 10.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, category = "zjhAddAttrs")
 		float evolveSpeed = 1.0f;
