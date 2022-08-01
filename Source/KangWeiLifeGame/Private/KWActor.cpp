@@ -24,7 +24,7 @@ void AKWActor::BeginPlay()
 {
 	Super::BeginPlay();
 	gameInstance = Cast<UKWGameInstance>(GetWorld()->GetGameInstance());
-	kwPawn = Cast<AKWPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
+	kwPawn = Cast<AKWPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	if (gameInstance)
 	{
 		gridXCount = gameInstance->gridXCount;
@@ -34,7 +34,9 @@ void AKWActor::BeginPlay()
 	bgMeshComp->SetRelativeScale3D(FVector(gridXCount / 100.0f));
 	if (kwPawn)
 	{
-		kwPawn->SetActorLocation(FVector(-200.0f, gridXCount * 2.5, gridYCount * 2.5));
+		FVector cameraLocation = ChangeLocalLocationToWorld(FVector2D(gridXCount / 2, gridYCount / 2), gridSize);
+		cameraLocation.X += -200;
+		kwPawn->SetActorLocation(cameraLocation);
 	}
 }
 
