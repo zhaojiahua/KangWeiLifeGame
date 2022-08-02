@@ -57,6 +57,10 @@ void AKWPawn::Tick(float DeltaTime)
 		playerCtr->GetMousePosition(realtimeMouseX, realtimeMouseY);
 		SetActorLocation(clickLocation + FVector(0, clickX - realtimeMouseX, realtimeMouseY - clickY));
 	}
+	if (bMouseClick)
+	{
+		MouseButtomClick();
+	}
 }
 
 // Called to bind functionality to input
@@ -64,7 +68,8 @@ void AKWPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("CameraPull", this, &AKWPawn::SetSpringArmLength);
-	PlayerInputComponent->BindAction("MouseClick", IE_Pressed, this, &AKWPawn::MouseButtomClick);
+	PlayerInputComponent->BindAction("MouseClick", IE_Pressed, this, &AKWPawn::MouseButtomClickOn);
+	PlayerInputComponent->BindAction("MouseClick", IE_Released, this, &AKWPawn::MouseButtomClickOff);
 	PlayerInputComponent->BindAction("MouseDrag", IE_Pressed, this, &AKWPawn::MouseDragCamera);
 	PlayerInputComponent->BindAction("MouseDrag", IE_Released, this, &AKWPawn::MouseDragCameraOff);
 }
@@ -79,22 +84,42 @@ void AKWPawn::MouseButtomClick()
 	AKWCube* hitcube = Cast<AKWCube>(hitresult.GetActor());
 	if (hitcube)
 	{
-		FVector hitWorldLocation = hitcube->GetActorLocation();
-		FVector2D hitLocal = kwActor->ChangeWorldLocationToLocal(hitWorldLocation, kwActor->gridSize);
-		if (kwActor)
+		if (hitcube->bCanClicked)
 		{
-			if (kwActor->gridMap[hitLocal])
+			FVector hitWorldLocation = hitcube->GetActorLocation();
+			FVector2D hitLocal = kwActor->ChangeWorldLocationToLocal(hitWorldLocation, kwActor->gridSize);
+			if (kwActor)
 			{
-				kwActor->ChangeCubeMat(hitLocal, false);
-				kwActor->gridMap.Add(hitLocal, 0);
+				if (kwActor->gridMap[hitLocal])
+				{
+					kwActor->ChangeCubeMat(hitLocal, false);
+					kwActor->gridMap.Add(hitLocal, 0);
+				}
+				else
+				{
+					kwActor->ChangeCubeMat(hitLocal, true);
+					kwActor->gridMap.Add(hitLocal, 1);
+				}
 			}
-			else
-			{
-				kwActor->ChangeCubeMat(hitLocal, true);
-				kwActor->gridMap.Add(hitLocal, 1);
-			}
+			arrayForClickedCubes.Add(hitcube);
+			hitcube->bCanClicked = false;
 		}
 	}
+}
+
+void AKWPawn::MouseButtomClickOn()
+{
+	bMouseClick = true;
+}
+
+void AKWPawn::MouseButtomClickOff()
+{
+	bMouseClick = false;
+	for (AKWCube* item : arrayForClickedCubes)
+	{
+		item->bCanClicked = true;
+	}
+	arrayForClickedCubes.Empty();
 }
 
 void AKWPawn::MouseDragCamera()

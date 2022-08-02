@@ -38,6 +38,8 @@ public:
 	FVector clickLocation;
 	bool bgetRealtimeMouse = false;
 
+	bool bMouseClick = false;
+
 	UPROPERTY(VisibleAnywhere,category="zjhAddAttrs")
 		class USceneComponent* rootComp;
 	UPROPERTY(VisibleAnywhere,  category = "zjhAddAttrs")
@@ -54,11 +56,15 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite,category="zjhAddAttrs")
 		bool gamePause = true;
 
-
+	TArray<class AKWCube*> arrayForClickedCubes;
 
 	//公开的函数
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
 		void MouseButtomClick();
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void MouseButtomClickOn();
+	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
+		void MouseButtomClickOff();
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")
 		void MouseDragCamera();
 	UFUNCTION(BlueprintCallable, category = "zjhAddFuns")

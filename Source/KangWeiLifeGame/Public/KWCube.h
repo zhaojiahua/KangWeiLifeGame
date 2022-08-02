@@ -29,5 +29,6 @@ public:
 	UPROPERTY(VisibleAnywhere, category = "zjhAddAttrs")
 		class UStaticMeshComponent* staticCubeComp;
 
+	bool bCanClicked = true;
 
 };
